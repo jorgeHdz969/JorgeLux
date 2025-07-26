@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jorge Lux</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+    }
+
+    header {
+      background-color: #333;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+
+    nav {
+      background-color: #444;
+      display: flex;
+      justify-content: center;
+      padding: 10px;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin: 0 15px;
+      font-weight: bold;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    .hero {
+      background: url('https://files.webnode.com/your_image_path.jpg') center/cover no-repeat;
+      height: 300px;
+      color: rgb(17, 1, 1);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 2rem;
+      font-weight: bold;
+    }
+
+    .content {
+      padding: 40px;
+      max-width: 900px;
+      margin: auto;
+      background: white;
+    }
+
+    .content h2 {
+      color: #333;
+    }
+
+    footer {
+      background: #222;
+      color: white;
+      text-align: center;
+      padding: 20px;
+      margin-top: 40px;
+    }
+
+    .pdf-button {
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px 20px;
+      margin: 15px auto;
+      display: block;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .pdf-button:hover {
+      background-color: #45a049;
+    }
+
+    /* -------- Chatbot INICIO -------- */
+    .chatbot-container {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 300px;
+      height: 400px;
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #aaa;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      z-index: 1000;
+      font-family: Arial, sans-serif;
+    }
+
+    .chatbot-header {
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px;
+      text-align: center;
+      font-weight: bold;
+    }
+
+    .chatbot-messages {
+      flex: 1;
+      padding: 10px;
+      overflow-y: auto;
+    }
+
+    .chatbot-input {
+      display: flex;
+      border-top: 1px solid #ccc;
+    }
+
+    .chatbot-input input {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      outline: none;
+    }
+
+    .chatbot-input button {
+      padding: 10px 15px;
+      border: none;
+      background-color: #4caf50;
+      color: white;
+      cursor: pointer;
+    }
+
+    .message {
+      margin: 5px 0;
+      padding: 8px 12px;
+      border-radius: 10px;
+      max-width: 80%;
+    }
+
+    .user {
+      background-color: #dcf8c6;
+      align-self: flex-end;
+    }
+
+    .bot {
+      background-color: #ececec;
+      align-self: flex-start;
+    }
+    /* -------- Chatbot FIN -------- */
+  </style>
+</head>
+<body id="pagina-web">
+
+  <button class="pdf-button" onclick="descargarPDF()">Descargar en PDF</button>
+
+  <header>
+    <h1>JORGE LUX</h1>
+    <p>Bienvenido a mi sitio web personal</p>
+  </header>
+
+  <nav>
+    <a href="#inicio">Inicio</a>
+    <a href="#sobre-mi">Sobre mí</a>
+    <a href="#contacto">Contacto</a>
+  </nav>
+
+  <section class="hero" id="inicio">
+    <div>¡Hola, soy Jorge!</div>
+  </section>
+
+  <section class="content" id="sobre-mi">
+    <h2>Sobre mí</h2>
+    <p>Soy estudiante de Ingeniería en Sistemas Computacionales apasionado por la tecnología y el desarrollo web.</p>
+    <p>Este sitio está hecho con amor y dedicación para mostrar mis proyectos y compartir conocimientos.</p>
+  </section>
+
+  <section class="content" id="contacto">
+    <h2>Contacto</h2>
+    <p>Puedes escribirme a: <a href="mailto:016335@universidadlux.edu.mx">016335@universidadlux.edu.mx</a></p>
+    <p>Sígueme en mis redes sociales:</p>
+    <ul>
+      <li><a href="https://facebook.com">Facebook</a></li>
+      <li><a href="https://instagram.com">Instagram</a></li>
+    </ul>
+  </section>
+
+  <footer>
+    <p>© 2025 Jorge Lux - Todos los derechos reservados.</p>
+  </footer>
+
+  <!-- Chatbot INICIO -->
+  <div class="chatbot-container">
+    <div class="chatbot-header">Botcito 🤖</div>
+    <div class="chatbot-messages" id="chatBox"></div>
+    <div class="chatbot-input">
+      <input type="text" id="userInput" placeholder="Escribe algo..." />
+      <button onclick="sendMessage()">Enviar</button>
+    </div>
+  </div>
+  <!-- Chatbot FIN -->
+
+  <script>
+    function descargarPDF() {
+      const elemento = document.getElementById('pagina-web');
+      const opciones = {
+        margin: 0.5,
+        filename: 'JorgeLux_SitioWeb.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+      };
+
+      html2pdf().set(opciones).from(elemento).save();
+    }
+
+    // Chatbot JavaScript
+    function sendMessage() {
+      const input = document.getElementById("userInput");
+      const msg = input.value.trim();
+      if (msg === "") return;
+
+      appendMessage("user", msg);
+      input.value = "";
+      botReply(msg.toLowerCase());
+    }
+
+    function appendMessage(sender, text) {
+      const chatBox = document.getElementById("chatBox");
+      const msgDiv = document.createElement("div");
+      msgDiv.className = `message ${sender}`;
+      msgDiv.textContent = text;
+      chatBox.appendChild(msgDiv);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    function botReply(input) {
+      let response = "Lo siento, no entiendo eso.";
+
+      if (input.includes("hola")) {
+        response = "¡Hola! ¿Cómo estás?";
+      } else if (input.includes("cómo estás") || input.includes("como estas")) {
+        response = "Estoy muy bien, gracias por preguntar 😊";
+      } else if (input.includes("tu nombre")) {
+        response = "Me llamo Botcito, encantado de ayudarte.";
+      } else if (input.includes("adiós") || input.includes("salir")) {
+        response = "¡Hasta pronto!";
+      }
+
+      setTimeout(() => appendMessage("bot", response), 500);
+    }
+  </script>
+</body>
+</html>
